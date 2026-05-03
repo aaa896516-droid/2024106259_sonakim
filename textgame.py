@@ -24,6 +24,7 @@ print("현재 상태:",condition)
 print("현재 시각:",time)
 
 level=input("난이도 선택(쉬움,보통,어려움):")
+history.append(level)
 
 settings={
     "난이도": level
@@ -31,6 +32,7 @@ settings={
 
 while True:
     direction=input("입력 매뉴> 이동(동,서,남,북)/상태/가방/저장/불러오기:")
+    history.append(direction)
 
     if direction=="저장":
         f=open("저장.txt","w")
@@ -39,6 +41,7 @@ while True:
         f.write(condition+"\n")
         f.write(time+"\n")
         f.write(level+"\n")
+        f.write(",".join(history) + "\n") 
         f.close()
         print("저장되었습니다.")
         continue
