@@ -1,8 +1,11 @@
+import os
+
 condition="배고프다"
 time="11시"
 hp=100
 money=50000
 bag=[]
+history=[]
 
 campus=[
     ["","","","","새천년관", "이윤재관"],
@@ -27,7 +30,45 @@ settings={
     }
 
 while True:
-    direction=input("입력 매뉴> 이동(동,서,남,북)/상태/가방:")
+    direction=input("입력 매뉴> 이동(동,서,남,북)/상태/가방/저장/불러오기:")
+
+    if direction=="저장":
+        f=open("저장.txt","w")
+        f.write(str(row)+"\n")
+        f.write(str(col)+"\n")
+        f.write(condition+"\n")
+        f.write(time+"\n")
+        f.write(level+"\n")
+        f.close()
+        print("저장되었습니다.")
+        continue
+
+    elif direction=="불러오기":
+        files = [f for f in os.listdir() if os.path.isfile(f)]
+        print("현재 폴더의 파일 목록:")
+        for i, f in enumerate(files):
+            print(f"{i+1}: {f}")
+        
+        file_input = input("불러올 파일 번호 또는 경로 입력: ")
+        
+        if file_input.isdigit() and 1 <= int(file_input) <= len(files):
+            file_path = files[int(file_input)-1]
+        else:
+            file_path = file_input
+            
+        try:
+            f = open(file_path, "r")
+            row = int(f.readline().strip())
+            col = int(f.readline().strip())
+            condition = f.readline().strip()
+            time = f.readline().strip()
+            level = f.readline().strip()
+            f.close()
+            print("성공적으로 불러왔습니다.")
+            print("현재 위치:", campus[row][col])
+        except Exception as e:
+            print("파일을 불러오는 데 실패했습니다:", e)
+        continue
 
     if direction== "상태":
         print("계좌의 잔액:",money)
